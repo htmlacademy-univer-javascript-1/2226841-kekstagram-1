@@ -61,4 +61,4 @@ const createPhoto = () => ({
   likes: getRandomDigit(15, 200),
   comments: Array.from({length: NUM_OF_COMMENTS}, createComment)
 });
-let hey = Array.from({length: 25}, createPhoto);
+Array.from({length: 25}, createPhoto);
