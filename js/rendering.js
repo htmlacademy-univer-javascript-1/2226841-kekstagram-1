@@ -1,13 +1,15 @@
-import {createArrOfPhoto } from './data.js';
+import {createArrOfPhoto} from './data.js';
+import {viewPhotoInFullSize} from './bigrendering.js';
 const photoListElement = document.querySelector('.pictures');
 const photoTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const photo = createArrOfPhoto ();
+export const photos = createArrOfPhoto ();
+
 const photoListFragment = document.createDocumentFragment();
 
-photo.forEach(({url, likes, comments}) => {
+photos.forEach(({url, likes, comments}) => {
   const photoElement = photoTemplate.cloneNode(true);
   photoElement.querySelector('.picture__img').src = url;
   photoElement.querySelector('.picture__likes').textContent = likes;
@@ -16,3 +18,10 @@ photo.forEach(({url, likes, comments}) => {
 });
 
 photoListElement.appendChild(photoListFragment);
+const arr = document.querySelectorAll('.pictures');
+for (let i = 0; i <= arr.length-1; i++) {
+  arr[i].addEventListener('click', () => {
+    viewPhotoInFullSize(photos[i]);
+  });
+}
+
