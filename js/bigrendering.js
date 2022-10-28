@@ -1,3 +1,12 @@
+import {isEscapeKey} from './util.js';
+
+const onPopupEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeFullSizePhoto();
+  }
+};
+
 export function viewPhotoInFullSize (photo) {
   document.querySelector('.big-picture__img').querySelector('img').src = photo.url;
   document.querySelector('.likes-count').textContent = photo.likes;
@@ -7,13 +16,14 @@ export function viewPhotoInFullSize (photo) {
   document.querySelector('.comments-loader').classList.add('hidden');
   document.querySelector('body').classList.add('modal-open');
   document.querySelector('.big-picture').classList.remove('hidden');
+  document.querySelector('.big-picture__cancel').addEventListener('click', closeFullSizePhoto);
+  document.addEventListener('keydown', onPopupEscKeydown);
+  createComments(photo.comments);
 }
 
-export function closeFullSizePhoto() {
-  const classBigPicture = document.querySelector('.big-picture');
-  if (!classBigPicture.classList.contains('hidden')) {
-    classBigPicture.classList.add('hidden');
-  }
+function closeFullSizePhoto() {
+  document.querySelector('.big-picture').classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscKeydown);
 }
 
 /* Логика заключается в том, чтобы клонировать один комментарий (т.к он всегда есть).
@@ -22,16 +32,17 @@ export function closeFullSizePhoto() {
 их.
 */
 
-export function createComments (comments) {
-  let clone = document.querySelector('.social__comment').cloneNode(true);
+function createComments (comments) {
+  const classSocialComment = document.querySelector('.social__comment');
+  let clone = classSocialComment.cloneNode(true);
   deleteComments();
   for (let i = 0; i <= comments.length - 1; i++) {
-    const classImg = clone.querySelector('img');
-    classImg.src = comments[i].avatar;
-    classImg.alt = comments[i].name;
+    const img = clone.querySelector('img');
+    img.src = comments[i].avatar;
+    img.alt = comments[i].name;
     clone.querySelector('.social__text').textContent = comments[i].message;
     document.querySelector('.social__comments').appendChild(clone);
-    clone = document.querySelector('.social__comment').cloneNode(true);
+    clone = classSocialComment.cloneNode(true);
   }
 }
 
