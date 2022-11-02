@@ -1,5 +1,6 @@
 import {createArrOfPhoto} from './data.js';
-import {viewPhotoInFullSize, closeFullSizePhoto, createComments} from './bigrendering.js';
+import {viewPhotoInFullSize} from './big_rendering.js';
+
 const photoListElement = document.querySelector('.pictures');
 const photoTemplate = document.querySelector('#picture')
   .content
@@ -17,15 +18,8 @@ photos.forEach((photo) => {
   photoElement.querySelector('.picture__comments').textContent = comments.length;
   photoElement.addEventListener('click', () => {
     viewPhotoInFullSize(photo);
-    createComments(photo.comments);
   });
   photoListFragment.appendChild(photoElement);
 });
 
 photoListElement.appendChild(photoListFragment);
-document.addEventListener('keydown', (event) => {
-  if (event.key === 'Escape') {closeFullSizePhoto();}
-});
-document.querySelector('.big-picture__cancel').addEventListener('click', () => {
-  closeFullSizePhoto();
-});
