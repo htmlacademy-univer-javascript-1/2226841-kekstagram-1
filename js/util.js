@@ -25,3 +25,4 @@ export const isEscapeKey = (evt) => evt.key === 'Escape';
 export function arrayEnded (array) {
   return array.length === 0;
 }
+
