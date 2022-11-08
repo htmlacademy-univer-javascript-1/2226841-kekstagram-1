@@ -115,27 +115,24 @@ function switchingEffect(evt) {
   editImg.classList.add(`effects__preview--${effect.split('-')[1]}`);
   if (effect === 'effect-none') {
     fieldForSlider.classList.add('hidden');
+    editImg.style.filter = '';
   } else {
     fieldForSlider.classList.remove('hidden');
+    const minMaxStep = getInfoAboutEffect(flagsToGetInfoAboutEffect.sliderInfo);
+    slider.noUiSlider.updateOptions({
+      range: {
+        min: minMaxStep[0],
+        max: minMaxStep[1]
+      },
+      start: minMaxStep[1],
+      step: minMaxStep[2]
+    });
   }
-  const minMaxStep = getInfoAboutEffect(flagsToGetInfoAboutEffect.sliderInfo);
-  slider.noUiSlider.updateOptions({
-    range: {
-      min: minMaxStep[0],
-      max: minMaxStep[1]
-    },
-    start: minMaxStep[1],
-    step: minMaxStep[2]
-  });
 }
 
 function switchingSLider () {
   effectLevelValue.value = slider.noUiSlider.get();
-  if (effect === 'effect-none') {
-    editImg.style.filter = '';
-  } else {
-    editImg.style.filter = getInfoAboutEffect(flagsToGetInfoAboutEffect.filterInfo);
-  }
+  editImg.style.filter = getInfoAboutEffect(flagsToGetInfoAboutEffect.filterInfo);
 }
 
 function scaleChange(evt) {
@@ -175,11 +172,15 @@ function validHashtags (value) {
 function msgClose () {
   if (body.contains(succSub)) {
     body.removeChild(succSub);
+    succButton.removeEventListener('click', msgClose);
   }
   if (body.contains(errSub)) {
     body.removeChild(errSub);
     classImgUploadOverlay.classList.remove('hidden');
+    errButton.removeEventListener('click', msgClose);
   }
+  document.removeEventListener('keydown', escMessage);
+  document.removeEventListener('click', msgClose);
 }
 
 function escMessage(evt) {

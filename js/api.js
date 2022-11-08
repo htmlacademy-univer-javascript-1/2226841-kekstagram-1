@@ -25,4 +25,3 @@ export const sendData = (onSuccess, onFail, body) => {
       onFail('Не удалось отправить форму. Попробуйте ещё раз');
     });
 };
-
