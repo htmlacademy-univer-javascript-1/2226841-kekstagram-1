@@ -26,3 +26,10 @@ export function arrayEnded (array) {
   return array.length === 0;
 }
 
+export function debounce (callback, timeoutDelay) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
