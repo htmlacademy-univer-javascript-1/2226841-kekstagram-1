@@ -224,26 +224,32 @@ function submit(evt) {
 }
 function openForm() {
   uploadFile.addEventListener('change', () => {
-    classImgUploadOverlay.classList.remove('hidden');
-    body.classList.add('modal-open');
-    workWithPristine();
-    scaleValue.value = '100%';
-    editImg.style.transform = `scale(${1})`;
-    effect = 'effect-none';
-    editImg.style.filter = '';
-    fieldForSlider.classList.add('hidden');
-    editImg.classList.add('effects__preview--none');
-    addListeners();
-    noUiSlider.create(slider, {
-      range: {
-        min: 0,
-        max: 0,
-      },
-      start: 0
-    });
-    slider.noUiSlider.on('update', () => {
-      switchingSLider();
-    });
+    const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+    const fileChooser = document.querySelector('input[type=file]');
+    const file = fileChooser.files[0];
+    const fileName = file.name.toLowerCase();
+    if(FILE_TYPES.some((it) => fileName.endsWith(it))) {
+      classImgUploadOverlay.classList.remove('hidden');
+      body.classList.add('modal-open');
+      workWithPristine();
+      scaleValue.value = '100%';
+      editImg.style.transform = `scale(${1})`;
+      effect = 'effect-none';
+      editImg.style.filter = '';
+      fieldForSlider.classList.add('hidden');
+      editImg.classList.add('effects__preview--none');
+      addListeners();
+      noUiSlider.create(slider, {
+        range: {
+          min: 0,
+          max: 0,
+        },
+        start: 0
+      });
+      slider.noUiSlider.on('update', () => {
+        switchingSLider();
+      });
+    }
   });
 }
 
